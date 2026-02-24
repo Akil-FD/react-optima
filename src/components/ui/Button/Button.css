@@ -1,0 +1,82 @@
+.btn {
+    padding: 9px 25px;
+    border-radius: 50px;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    height: fit-content;
+}
+
+
+.btn-filled {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btn-filled:active {
+    transform: scale(0.97);
+}
+
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-grey-100);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-grey-200);
+}
+
+.btn-outline:active {
+    transform: scale(0.97);
+}
+
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.gradient-btn {
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    box-shadow:
+        0 4px 10px rgba(102, 126, 234, 0.4),
+        0 2px 10px rgba(118, 75, 162, 0.3);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

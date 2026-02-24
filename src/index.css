@@ -1,0 +1,38 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+}
+
+/* Remove default anchor styling */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default button styling */
+button {
+  font: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
