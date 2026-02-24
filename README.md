@@ -112,7 +112,7 @@ src/
 1. Clone the repository:
 ```
 bash
-git clone <repository-url>
+git clone https://github.com/Akil-FD/react-optima.git
 cd react-optima
 ```
 
@@ -139,14 +139,6 @@ npm run dev
 | `npm run lint` | Run ESLint |
 | `npm run preview` | Preview production build |
 
-## Environment Variables
-
-Create a `.env` file in the root directory and configure the following:
-
-```
-env
-VITE_API_URL=your_api_url_here
-```
 
 ## Key Dependencies
 
