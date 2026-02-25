@@ -15,8 +15,8 @@ import Dialog from "../../../components/ui/Dialog/Dialog";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { registerUser } from "../../../store/auth/auth.thunk";
 import { ENV } from "../../../config/env";
-import DashboardLayout from "../../../components/layout/DashboardLayout";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import HomeLayout from "../../../components/layout/HomeLayout";
 
 
 const countries: CountryOption[] = [
@@ -272,7 +272,7 @@ function Registration() {
 
 
     return (
-        <DashboardLayout>
+        <HomeLayout>
             <div className="home-layout">
                 <h1>CANDIDATE REGISTRATION</h1>
                 <div className="register-container">
@@ -494,7 +494,7 @@ function Registration() {
                     </form>
                 </div>
             </div>
-        </DashboardLayout>
+        </HomeLayout>
     );
 }
 
