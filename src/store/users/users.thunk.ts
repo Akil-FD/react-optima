@@ -7,14 +7,16 @@ export const fetchUsers = createAsyncThunk<
   number,
   { rejectValue: string }
 >(
-  "users/fetchUsers", 
+  "users/fetchUsers",
   async (page: number, { rejectWithValue }) => {
     try {
-      const response = await userService.getUsers({page});
+      const response = await userService.getUsers({ page });
       return response;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch users"
+        Object.values(error.errors).flat().length
+          ? Object.values(error.errors).flat().join(" , ")
+          : "Failed to fetch users"
       );
     }
   }

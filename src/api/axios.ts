@@ -27,8 +27,7 @@ const createApi = (): AxiosInstance => {
           config.baseURL = ENV.API_BASE_URL;
         }
       } catch (error) {
-        console.log(error);
-
+        console.error(error);
       }
 
       return config;

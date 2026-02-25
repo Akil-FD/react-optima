@@ -6,7 +6,7 @@ import Checkbox from "../../../components/ui/Checkbox/Checkbox";
 import MobileNumber, { type CountryOption } from "../../../components/ui/MobileNumber/MobileNumber";
 import Button from "../../../components/ui/Button/Button";
 import OTPInput from "../../../components/ui/OTPInput/OTPInput";
-import { DEFAULT_VALUES } from "../../../utils/constant";
+import { DEFAULT_VALUES, PATH } from "../../../utils/constant";
 import { useEffect, useMemo, useState } from "react";
 import type { OTPState } from "../../../types/auth";
 import { useApi } from "../../../hooks/useApi";
@@ -30,11 +30,11 @@ function Registration() {
     const dispatch = useAppDispatch();
     const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/dashboard");
-        }
-    }, [isAuthenticated, navigate]);
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         navigate("/dashboard");
+    //     }
+    // }, [isAuthenticated, navigate]);
 
     const [OTPVerify, setOTPVerify] = useState<OTPState>({
         email: { isSubmitted: false, isVerified: false },
@@ -148,7 +148,10 @@ function Registration() {
                 designation: values.designation,
                 mobile: values.contactNumber,
                 organization_name: values.organisation,
-            }));
+            }))
+                .unwrap()
+                .then((res) => setIsSuccessDialogOpen(true))
+                .catch((err) => alert(err));
         } catch (error) {
             console.error(error);
         }
@@ -162,6 +165,7 @@ function Registration() {
                 const res = await sendMailOtp.request({
                     mail: form.getValues(formLabels.email.key as keyof RegisterFormValues) as string,
                 });
+                console.log(res);
 
                 if (res) {
                     setOTPVerify((prev) => ({
@@ -174,8 +178,7 @@ function Registration() {
             setIsEmailOtpRequired(true);
             form.trigger(formLabels.emailOTP.key as keyof RegisterFormValues);
         } catch (error) {
-            console.log(error);
-
+            console.error(error);
         }
 
     }
@@ -479,13 +482,16 @@ function Registration() {
                                 <h2 className="dialog-title">Successfully Submitted</h2>
                                 <p className="dialog-message">Thank you! Your form has successfully submitted</p>
 
-                                <Button className="dialog-continue" onClick={() => { }}>
+                                <Button className="dialog-continue" onClick={() => {
+                                    setIsSuccessDialogOpen(false);
+                                    navigate(PATH.DASHBOARD)
+                                }}>
                                     Continue
                                 </Button>
                             </Dialog>
 
                             <div className="btn-container">
-                                <Button type="submit" variant="outline" className="gradient-btn btn-lg">
+                                <Button type="submit" variant="outline" disabled={register.loading} className="gradient-btn btn-lg">
                                     {register.loading && <span className="spinner" />}
                                     {register.loading ? "Submitting..." : "Submit"}
                                 </Button>

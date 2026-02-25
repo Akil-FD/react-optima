@@ -3,6 +3,7 @@ import { API_END_POINTS } from "../../utils/constant";
 import { authService } from "../../api/service/auth.service";
 import type { CorporateRegisterRequest } from "../../api/types";
 import type { AuthResponse } from "./auth.types";
+import { isJsonString } from "../../utils/utils";
 
 export const registerUser = createAsyncThunk<
     AuthResponse,
@@ -15,8 +16,11 @@ export const registerUser = createAsyncThunk<
             const response = await authService.registerUser(payload);
             return response;
         } catch (error: any) {
+            const message = isJsonString(error) ? JSON.parse(error).errors : error;
             return rejectWithValue(
-                error.response?.data?.message || "Registration failed"
+                Object.values(message).flat().length
+                    ? Object.values(message).flat().join(" , ")
+                    : "Registration failed"
             );
         }
     }
