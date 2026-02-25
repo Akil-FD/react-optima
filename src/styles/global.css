@@ -677,6 +677,15 @@ input[type="checkbox"] {
 
 /* Mobile */
 @media (max-width: 480px) {
+    .home-layout h1 {
+        font-size: var(--font-size-xl);
+        margin-top: 20px;
+    }
+
+    .auth-layout {
+        margin: 0;
+        padding: 1px;
+    }
 
     .form-container {
         display: flex;
@@ -718,6 +727,11 @@ input[type="checkbox"] {
 
 /* Desktop Layout */
 @media (min-width: 768px) {
+
+    .parent-input-container {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
     .auth-card {
         padding: 24px;

@@ -19,10 +19,10 @@ const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Navigate to="/register" replace />} />
-                <Route path="/register" element={<Registration />} />
+                <Route path="/" element={<Navigate to={PATH.REGISTER} replace />} />
+                <Route path={PATH.REGISTER} element={<Registration />} />
                 <Route
-                    path="/dashboard"
+                    path={PATH.DASHBOARD}
                     element={
                         <ProtectedRoute>
                             <DashboardHome />
