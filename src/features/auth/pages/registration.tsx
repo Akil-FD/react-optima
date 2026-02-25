@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { createRegisterSchema, type RegisterFormValues } from "../../../validators/auth-schema";
 import Input from "../../../components/ui/Input/Input";
@@ -17,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { registerUser } from "../../../store/auth/auth.thunk";
 import { ENV } from "../../../config/env";
 import DashboardLayout from "../../../components/layout/DashboardLayout";
+import { Controller, useForm, useWatch } from "react-hook-form";
 
 
 const countries: CountryOption[] = [
@@ -42,7 +42,7 @@ function Registration() {
     });
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(true);
+    const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
 
     const sendMailOtp = useApi(authService.requestOTPMail);
     const verifyMailOtp = useApi(authService.verifyOTPMail);
