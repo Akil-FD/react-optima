@@ -41,7 +41,9 @@ export default function DashboardHome() {
 
   const loadMore = useCallback(() => {
     if (!loading && hasMore) {
-      dispatch(fetchUsers(page));
+      dispatch(fetchUsers(page))
+        .unwrap()
+        .catch((err) => alert(err));
     }
   }, [dispatch, loading, hasMore, page]);
 
