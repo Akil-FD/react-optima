@@ -114,7 +114,8 @@ a {
 
 .input-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
     max-width: 300px;
 }
@@ -674,17 +675,24 @@ input[type="checkbox"] {
 
 
 
-
-
-/* Tablet */
-@media (max-width: 768px) {
-    .auth-card {
-        padding: 24px;
-    }
-}
-
 /* Mobile */
 @media (max-width: 480px) {
+
+    .form-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .parent-input-container {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .register-container {
+        padding: 0px;
+    }
 
     .register-container form input,
     .register-container form select,
@@ -701,11 +709,20 @@ input[type="checkbox"] {
         height: 35px;
         font-size: var(--font-size-md);
     }
+
+    .mobile-container input {
+        width: 100%;
+    }
 }
 
 
 /* Desktop Layout */
 @media (min-width: 768px) {
+
+    .auth-card {
+        padding: 24px;
+    }
+
     .property-card {
         flex-direction: row;
         height: 220px;
@@ -724,9 +741,19 @@ input[type="checkbox"] {
     }
 }
 
-/* @media (max-width: 700px) {
+@media (max-width: 650px) {
+    .header-left input {
+        display: none;
+    }
+
+    .header-left button {
+        border-radius: 50%;
+        height: 45px;
+        width: 48px
+    }
+
     .parent-input-container {
         flex-wrap: wrap;
         gap: 20px;
     }
-} */
+}
