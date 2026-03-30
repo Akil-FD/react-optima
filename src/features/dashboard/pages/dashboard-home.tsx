@@ -4,6 +4,7 @@ import Dropdown from "../../../components/ui/Dropdown/Dropdown";
 import { InfiniteScroll } from "../../../components/ui/VirtualizedInfiniteList/VirtualizedInfiniteList";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchUsers } from "../../../store/users/users.thunk";
+import { resetUsers, setFilters } from "../../../store/users/users.slice";
 import React, { useCallback, useEffect, useMemo } from "react";
 
 export default function DashboardHome() {
@@ -28,10 +29,23 @@ export default function DashboardHome() {
     "Residential",
   ];
 
+  const categoryMap = {
+    "Commerical": 1,
+    "Residential": 2,
+  } as Record<string, number>;
+
+  const propertyTypeMap = {
+    "Apartment": 41,
+    "Villa": 42,
+    "Townhouse": 69,
+    "Hotel": 4,
+    "Duplex": 5,
+    "Compound": 45,
+  } as Record<string, number>;
 
   const dispatch = useAppDispatch();
 
-  const { items, loading, hasMore, page } = useAppSelector(
+  const { items, loading, hasMore, page, filters } = useAppSelector(
     (state) => state.users
   );
 
@@ -41,11 +55,11 @@ export default function DashboardHome() {
 
   const loadMore = useCallback(() => {
     if (!loading && hasMore) {
-      dispatch(fetchUsers(page))
+      dispatch(fetchUsers({ page, filters }))
         .unwrap()
         .catch((err) => alert(err));
     }
-  }, [dispatch, loading, hasMore, page]);
+  }, [dispatch, loading, hasMore, page, filters]);
 
   const renderItem = useCallback(
     (user: Property) => (
@@ -75,21 +89,43 @@ export default function DashboardHome() {
           options={rentTypes}
           defaultValue="Select Type"
           className="my-custom-select"
-          onChange={(value) => console.log("Selected:", value)}
-        />
+          onChange={(value) => {
+            console.log("Selected Rent Type:", value);
+            if (value === "Select Type") {
+              dispatch(setFilters({ ...filters, offering_types: undefined }));
+            } else {
+              dispatch(resetUsers());
+              dispatch(setFilters({ ...filters, offering_types: value.toLowerCase() }));
+            }
+          }}
+        /> 
 
         <Dropdown
           options={categoryTypes}
           defaultValue="Select Categories"
           className="my-custom-select"
-          onChange={(value) => console.log("Selected:", value)}
-        />
+          onChange={(value) => {
+            if (value === "Select Categories") {
+              dispatch(setFilters({ ...filters, category_id: undefined }));
+            } else {
+              dispatch(resetUsers());
+              dispatch(setFilters({ ...filters, category_id: categoryMap[value] }));
+            }
+          }}
+        /> 
         <Dropdown
           options={propertyTypes}
           defaultValue="Select Property Type"
           className="my-custom-select"
-          onChange={(value) => console.log("Selected:", value)}
-        />
+          onChange={(value) => {
+            if (value === "Select Property Type") {
+              dispatch(setFilters({ ...filters, property_type_id: undefined }));
+            } else {
+              dispatch(resetUsers());
+              dispatch(setFilters({ ...filters, property_type_id: propertyTypeMap[value] }));
+            }
+          }}
+        /> 
       </div>
 
       <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>

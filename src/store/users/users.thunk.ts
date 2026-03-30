@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { userService } from "../../api/service/user.service";
-import type { PropertyPagination } from "../../api/types";
+import type { PropertyListRequest, PropertyPagination } from "../../api/types";
 
 export const fetchUsers = createAsyncThunk<
   PropertyPagination,
-  number,
+  { page: number; filters?: Partial<PropertyListRequest> },
   { rejectValue: string }
 >(
   "users/fetchUsers",
-  async (page: number, { rejectWithValue }) => {
+  async ({ page, filters = {} }, { rejectWithValue }) => {
     try {
-      const response = await userService.getUsers({ page });
+      const response = await userService.getUsers({ page, ...filters });
       return response;
     } catch (error: any) {
       return rejectWithValue(
