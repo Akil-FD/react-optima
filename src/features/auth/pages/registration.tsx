@@ -44,8 +44,6 @@ function Registration() {
     const sendSmsOtp = useApi(authService.requestSmsMail);
     const verifySmsOtp = useApi(authService.verifySmsMail);
 
-    const register = useApi(authService.registerUser);
-
     const [isEmailOtpRequired, setIsEmailOtpRequired] = useState(false);
     const [isPhoneOtpRequired, setIsPhoneOtpRequired] = useState(false);
 
