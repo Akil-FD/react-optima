@@ -1,7 +1,7 @@
 import { createSlice, type ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { fetchUsers } from "./users.thunk";
-import type { UsersState } from "./users.types";
 import type { Property, PropertyPagination } from "../../api/types";
+import type { UsersState } from "./users.types";
 
 const initialState: UsersState = {
   items: [],
@@ -9,6 +9,7 @@ const initialState: UsersState = {
   hasMore: true,
   loading: false,
   error: null,
+  filters: {},
 };
 
 const usersSlice = createSlice({
@@ -16,6 +17,9 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     resetUsers: () => initialState,
+    setFilters(state, action) {
+      state.filters = action.payload;
+    },
     setPage(state, action) {
       state.page = action.payload;
     },
@@ -62,5 +66,5 @@ const usersSlice = createSlice({
   },
 });
 
-export const { resetUsers, setPage, setHasMore } = usersSlice.actions;
+export const { resetUsers, setFilters, setPage, setHasMore } = usersSlice.actions;
 export default usersSlice.reducer;
