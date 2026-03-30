@@ -1,37 +1,54 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import DashboardHome from "../features/dashboard/pages/dashboard-home";
 import Registration from "../features/auth/pages/registration";
 import { useAppSelector } from "../store/hooks";
-import type React from "react";
 import { PATH } from "../utils/constant";
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedLayout = () => {
     const { isAuthenticated } = useAppSelector((state) => state.auth);
 
     if (!isAuthenticated) {
-        return <Navigate to={PATH.REGISTER} />;
+        return <Navigate to={PATH.REGISTER} replace />;
     }
 
-    return children;
+    return <Outlet />;
 };
 
+const PublicOnlyLayout = () => {
+  const { isAuthenticated } = useAppSelector(
+    (state) => state.auth
+  );
+
+  // If already logged in → go to dashboard
+  if (isAuthenticated) {
+    return <Navigate to={PATH.DASHBOARD} replace />;
+  }
+
+  return <Outlet />;
+};
+
+
 const AppRoutes = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Navigate to={PATH.REGISTER} replace />} />
-                <Route path={PATH.REGISTER} element={<Registration />} />
-                <Route
-                    path={PATH.DASHBOARD}
-                    element={
-                        <ProtectedRoute>
-                            <DashboardHome />
-                        </ProtectedRoute>
-                    }
-                />
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Default Redirect */}
+        <Route path="/" element={<Navigate to={PATH.REGISTER} replace />} />
+
+        {/* Public Only Routes */}
+        <Route element={<PublicOnlyLayout />}>
+          <Route path={PATH.REGISTER} element={<Registration />} />
+        </Route>
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedLayout />}>
+          <Route path={PATH.DASHBOARD} element={<DashboardHome />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to={PATH.REGISTER} />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default AppRoutes;

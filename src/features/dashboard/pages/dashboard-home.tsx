@@ -49,7 +49,7 @@ export default function DashboardHome() {
 
   const renderItem = useCallback(
     (user: Property) => (
-      <InfiniteScroll.Item>
+      <InfiniteScroll.Item key={user.id}>
         <div style={{ padding: "20px" }}>
           <PropertyCard
             image={user.property_images?.[0] ?? ""}
