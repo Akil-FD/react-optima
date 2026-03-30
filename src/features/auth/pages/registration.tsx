@@ -12,7 +12,7 @@ import type { OTPState } from "../../../types/auth";
 import { useApi } from "../../../hooks/useApi";
 import { authService } from "../../../api/service/auth.service";
 import Dialog from "../../../components/ui/Dialog/Dialog";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import { registerUser } from "../../../store/auth/auth.thunk";
 import { ENV } from "../../../config/env";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -142,7 +142,7 @@ function Registration() {
                 organization_name: values.organisation,
             }))
                 .unwrap()
-                .then((res) => setIsSuccessDialogOpen(true))
+                .then((_) => setIsSuccessDialogOpen(true))
                 .catch((err) => alert(err));
         } catch (error) {
             console.error(error);
