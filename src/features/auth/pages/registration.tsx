@@ -28,14 +28,7 @@ const countries: CountryOption[] = [
 function Registration() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { isAuthenticated } = useAppSelector((state) => state.auth);
-
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         navigate("/dashboard");
-    //     }
-    // }, [isAuthenticated, navigate]);
-
+ 
     const [OTPVerify, setOTPVerify] = useState<OTPState>({
         email: { isSubmitted: false, isVerified: false },
         contactNo: { isSubmitted: false, isVerified: false },
@@ -125,7 +118,6 @@ function Registration() {
     };
 
     const onSubmit = (data: RegisterFormValues) => {
-        console.log("Form Data:", data);
         handleRegister(data);
     };
 
