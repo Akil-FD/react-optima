@@ -28,7 +28,7 @@ const countries: CountryOption[] = [
 function Registration() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
- 
+
     const [OTPVerify, setOTPVerify] = useState<OTPState>({
         email: { isSubmitted: false, isVerified: false },
         contactNo: { isSubmitted: false, isVerified: false },
@@ -36,14 +36,13 @@ function Registration() {
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const sendMailOtp = useApi(authService.requestOTPMail);
     const verifyMailOtp = useApi(authService.verifyOTPMail);
 
     const sendSmsOtp = useApi(authService.requestSmsMail);
     const verifySmsOtp = useApi(authService.verifySmsMail);
-
-    const register = useApi(authService.registerUser);
 
     const [isEmailOtpRequired, setIsEmailOtpRequired] = useState(false);
     const [isPhoneOtpRequired, setIsPhoneOtpRequired] = useState(false);
@@ -118,6 +117,7 @@ function Registration() {
     };
 
     const onSubmit = (data: RegisterFormValues) => {
+        setIsLoading(true);
         handleRegister(data);
     };
 
@@ -142,8 +142,11 @@ function Registration() {
                 organization_name: values.organisation,
             }))
                 .unwrap()
-                .then((_) => setIsSuccessDialogOpen(true))
-                .catch((err) => alert(err));
+                .then((_) => {
+                    setIsSuccessDialogOpen(true);
+                    setIsLoading(false);
+                })
+                .catch((err) => {alert(err); setIsLoading(false);});
         } catch (error) {
             console.error(error);
         }
@@ -483,9 +486,9 @@ function Registration() {
                             </Dialog>
 
                             <div className="btn-container">
-                                <Button type="submit" variant="outline" disabled={register.loading} className="gradient-btn btn-lg">
-                                    {register.loading && <span className="spinner" />}
-                                    {register.loading ? "Submitting..." : "Submit"}
+                                <Button type="submit" variant="outline" disabled={isLoading} className="gradient-btn btn-lg">
+                                    {/* {isLoading && <span className="spinner" />} */}
+                                    {isLoading ? "Submitting..." : "Submit"}
                                 </Button>
                             </div>
                         </div>
